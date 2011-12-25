@@ -1,0 +1,54 @@
+﻿<Window x:Class="TaxRateSolver.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Tax Rate Solver" Height="480" Width="640">
+    <TabControl>
+        <TabItem Header="Main">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height=".9*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Enter pretax earnings (separate multiple values with semicolons) to find tax liabilities and average tax rates:" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="inputs" Text="{Binding PreTaxEarnings}" KeyDown="OnEnterNewEarningsKeyDown" TabIndex="0" />
+                        <Button Content="Calculate" Grid.Column="1" />
+                    </Grid>
+                </StackPanel>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Results:" />
+                    <DataGrid ItemsSource="{Binding TaxReturns}" AlternatingRowBackground="LightGreen" AutoGenerateColumns="False" Grid.Row="1">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn IsReadOnly="True" Header="Pre Tax Earnings" Binding="{Binding PreTaxEarnings, StringFormat={}{0:C}}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Tax Liability" Binding="{Binding TaxLiability, StringFormat={}{0:C}}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Average Tax Rate" Binding="{Binding AverageTaxRate, StringFormat={}{0:P1}}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Marginal Tax Rate" Binding="{Binding MarginalTaxRate, StringFormat={}{0:P1}}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Tax Rates">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="US Corporate Tax Rates. You can edit these." />
+                <DataGrid Grid.Row="1" ItemsSource="{Binding TaxSchedule}" AlternatingRowBackground="LightGreen" />
+            </Grid>
+        </TabItem>
+    </TabControl>
+</Window>
